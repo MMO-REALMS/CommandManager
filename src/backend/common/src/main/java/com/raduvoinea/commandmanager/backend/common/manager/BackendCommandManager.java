@@ -17,15 +17,15 @@ import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public abstract class CommonBackendCommandManager extends CommonCommandManager {
+public abstract class BackendCommandManager extends CommonCommandManager {
 
 	private final MinecraftServer server;
-	private final CommonMiniMessageManager<Component> miniMessageManager;
+	private final BackendMiniMessageManager miniMessageManager;
 
-	public CommonBackendCommandManager(@NotNull Reflections.Crawler reflectionsCrawler,
-	                                   @NotNull CommandManagerConfig config, @NotNull MinecraftServer server,
-	                                   @NotNull Holder<Injector> injector,
-	                                   @NotNull CommonMiniMessageManager<Component> miniMessageManager) {
+	public BackendCommandManager(@NotNull Reflections.Crawler reflectionsCrawler,
+	                             @NotNull CommandManagerConfig config, @NotNull MinecraftServer server,
+	                             @NotNull Holder<Injector> injector,
+	                             @NotNull BackendMiniMessageManager miniMessageManager) {
 		super(reflectionsCrawler, ServerPlayer.class, MinecraftServer.class, CommandSource.class, config, injector);
 
 		this.server = server;

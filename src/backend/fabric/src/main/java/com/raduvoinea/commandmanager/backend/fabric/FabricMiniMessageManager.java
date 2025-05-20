@@ -1,5 +1,6 @@
 package com.raduvoinea.commandmanager.backend.fabric;
 
+import com.raduvoinea.commandmanager.backend.common.manager.BackendMiniMessageManager;
 import com.raduvoinea.commandmanager.common.manager.CommonMiniMessageManager;
 import net.kyori.adventure.platform.fabric.FabricAudiences;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
@@ -9,7 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.NotNull;
 
 
-public class FabricMiniMessageManager extends CommonMiniMessageManager<Component> {
+public class FabricMiniMessageManager extends BackendMiniMessageManager{
 
 	private final FabricAudiences audiences;
 

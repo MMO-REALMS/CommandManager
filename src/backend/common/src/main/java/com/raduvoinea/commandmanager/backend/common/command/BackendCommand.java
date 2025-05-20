@@ -9,7 +9,7 @@ import com.raduvoinea.commandmanager.common.annotation.Command;
 import com.raduvoinea.commandmanager.common.command.CommonCommand;
 import com.raduvoinea.commandmanager.common.manager.CommonCommandManager;
 import com.raduvoinea.commandmanager.common.utils.ListUtils;
-import com.raduvoinea.commandmanager.backend.common.manager.CommonBackendCommandManager;
+import com.raduvoinea.commandmanager.backend.common.manager.BackendCommandManager;
 import com.raduvoinea.utils.logger.Logger;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
@@ -30,16 +30,16 @@ import static net.minecraft.commands.Commands.literal;
 @SuppressWarnings("unused")
 public abstract class BackendCommand extends CommonCommand {
 
-	private final CommonBackendCommandManager commandManager;
+	private final BackendCommandManager commandManager;
 
 	public BackendCommand(CommonCommandManager commandManager, Command commandAnnotation) {
 		super(commandManager, commandAnnotation);
-		this.commandManager = (CommonBackendCommandManager) commandManager;
+		this.commandManager = (BackendCommandManager) commandManager;
 	}
 
 	public BackendCommand(CommonCommandManager commandManager) {
 		super(commandManager);
-		this.commandManager = (CommonBackendCommandManager) commandManager;
+		this.commandManager = (BackendCommandManager) commandManager;
 	}
 
 	public @NotNull Set<BackendCommand> getSubCommands() {
