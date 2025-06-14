@@ -1,5 +1,6 @@
 package com.raduvoinea.commandmanager.velocity.command;
 
+import com.raduvoinea.commandmanager.common.annotation.Command;
 import com.raduvoinea.commandmanager.common.command.CommonCommand;
 import com.raduvoinea.commandmanager.common.manager.CommonCommandManager;
 import com.raduvoinea.commandmanager.common.utils.ListUtils;
@@ -21,6 +22,11 @@ import java.util.stream.Collectors;
 public abstract class VelocityCommand extends CommonCommand implements SimpleCommand {
 
 	private final VelocityCommandManager commandManager;
+
+	public VelocityCommand(CommonCommandManager commandManager, Command commandAnnotation) {
+		super(commandManager, commandAnnotation);
+		this.commandManager = (VelocityCommandManager) commandManager;
+	}
 
 	public VelocityCommand(CommonCommandManager commandManager) {
 		super(commandManager);
