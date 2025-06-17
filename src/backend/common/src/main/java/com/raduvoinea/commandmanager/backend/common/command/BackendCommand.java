@@ -5,7 +5,6 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.raduvoinea.commandmanager.backend.common.manager.CommonBackendCommandManager;
 import com.raduvoinea.commandmanager.common.annotation.Command;
 import com.raduvoinea.commandmanager.common.command.CommonCommand;
 import com.raduvoinea.commandmanager.common.manager.CommonCommandManager;
@@ -27,7 +26,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static net.minecraft.commands.Commands.literal;
-
 
 @SuppressWarnings("unused")
 public abstract class BackendCommand extends CommonCommand {
