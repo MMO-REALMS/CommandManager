@@ -11,6 +11,6 @@ import org.jetbrains.annotations.NotNull;
 public class NeoForgeCommandManager extends BackendCommandManager {
 	public NeoForgeCommandManager(Reflections.@NotNull Crawler reflectionsCrawler, @NotNull CommandManagerConfig config,
 	                              @NotNull MinecraftServer server, @NotNull Holder<Injector> injector) {
-		super(reflectionsCrawler, config, server, injector, null);
+		super(reflectionsCrawler, config, server, injector, new NeoForgeMiniMessageManager(server));
 	}
 }

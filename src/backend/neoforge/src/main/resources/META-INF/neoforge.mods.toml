@@ -5,7 +5,7 @@ license = "Insert License Here"
 
 [[mods]]
 modId = "command_manager_neoforge"
-version = "${version}"
+version = "1.0.0"
 displayName = "Example Mod"
 authors = "Me!"
 description = '''
