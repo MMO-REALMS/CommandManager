@@ -75,7 +75,7 @@ public abstract class CommonCommand {
 		return parentFullCommand + this.getMainAlias();
 	}
 
-	private String getSimpleUsage() {
+	public String getSimpleUsage() {
 		return commandManager.getConfig().simpleUsage
 				.parse("command", this.getFullCommand())
 				.parse("arguments", String.join(" ",
