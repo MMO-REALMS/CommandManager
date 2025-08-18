@@ -86,7 +86,7 @@ public abstract class CommonCommand {
 				.parse();
 	}
 
-	private List<String> getFullCommandAndSubCommands() {
+	public List<String> getFullCommandAndSubCommands() {
 		List<String> lines = new ArrayList<>();
 		lines.add(this.getSimpleUsage());
 
