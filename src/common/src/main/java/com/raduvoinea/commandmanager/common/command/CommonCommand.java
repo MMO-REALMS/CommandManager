@@ -58,7 +58,7 @@ public abstract class CommonCommand {
 				.collect(Collectors.toList());
 	}
 
-	private String getFullCommand() {
+	public String getFullCommand() {
 		String parentFullCommand = "";
 
 		if (!isRootCommand()) {
