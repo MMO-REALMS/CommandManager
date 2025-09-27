@@ -57,10 +57,10 @@ dependencies {
     modCompileOnly(Libs.fabric.api)
     modCompileOnly(Libs.architectury.fabric)
 
-    shadowBundle(project(":command-manager-common"))
+    shadowBundle(project(":common"))
 
-    common(project(":command-manager-backend-common"))
-    shadowBundle(project(":command-manager-backend-common", configuration = "transformProductionFabric"))
+    common(project(":backend-common", configuration = "namedElements"))
+    shadowBundle(project(":backend-common", configuration = "transformProductionFabric"))
 
     modCompileOnly("net.kyori:adventure-platform-fabric:5.14.1")
 }

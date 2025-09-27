@@ -91,6 +91,7 @@ subprojects {
 
     tasks {
         java {
+            withSourcesJar()
             sourceCompatibility = JavaVersion.VERSION_21
             targetCompatibility = JavaVersion.VERSION_21
         }
@@ -99,6 +100,7 @@ subprojects {
     publishing {
         publications {
             create<MavenPublication>("maven") {
+                artifactId = "${rootProject.name}-${base.archivesName.get()}"
                 from(components["java"])
             }
         }

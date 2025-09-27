@@ -28,7 +28,7 @@ dependencies {
     modCompileOnly(Libs.fabric.loader)
     modCompileOnly(Libs.architectury.common)
 
-    api(project(":command-manager-common"))
+    api(project(":common"))
 }
 
 tasks {

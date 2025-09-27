@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-import Utils.Companion.toPascalCase
-
 plugins {
     id("java")
     id("java-library")
@@ -11,21 +9,39 @@ plugins {
     id("com.gradleup.shadow")
 }
 
-loom {
-    silentMojangMappingsLicense()
-}
-
 architectury {
     platformSetupLoomIde()
     neoForge()
 }
 
-configurations.implementation{
+loom {
+    silentMojangMappingsLicense()
+
+    neoForge {
+    }
+}
+
+val common = configurations.create("common") {
     isCanBeResolved = true
     isCanBeConsumed = false
 }
 
-val (type, module, id) = Utils.getProjectMetadata(project.name)
+val shadowBundle = configurations.create("shadowBundle") {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+configurations {
+    compileClasspath {
+        extendsFrom(common)
+    }
+    runtimeClasspath {
+        extendsFrom(common)
+    }
+    api {
+        extendsFrom(shadowBundle)
+    }
+}
 
 dependencies {
     minecraft(Libs.minecraft)
@@ -37,8 +53,10 @@ dependencies {
     neoForge(Libs.neoforge)
     modImplementation(Libs.architectury.neoforge)
 
-    api(project(":command-manager-backend-common"))
-    implementation(project(":command-manager-backend-common", configuration = "transformProductionNeoForge"))
+    shadowBundle(project(":common"))
+
+    common(project(":backend-common", configuration = "namedElements"))
+    shadowBundle(project(":backend-common", configuration = "transformProductionNeoForge"))
 
     modCompileOnlyApi("net.kyori:adventure-platform-neoforge:6.0.0")
 }
@@ -46,25 +64,33 @@ dependencies {
 tasks {
     remapJar {
         archiveFileName = "CommandManager-NeoForge-${version}.jar"
-    }
 
-    shadowJar {
-        archiveFileName = "CommandManager-NeoForge-${version}-all.jar"
-        configurations = listOf(project.configurations.implementation.get())
-
-        exclude("architectury.common.json")
-    }
-
-    remapJar {
         injectAccessWidener.set(true)
         inputFile.set(shadowJar.get().archiveFile)
         dependsOn(shadowJar)
-        archiveClassifier.set(null as String?)
+    }
+
+    shadowJar {
+        exclude("architectury.common.json")
+        isZip64 = true
+
+        configurations = listOf(
+            shadowBundle
+        )
+
+        archiveClassifier.set("dev-shadow")
     }
 
     jar {
         archiveClassifier.set("dev")
     }
-
 }
+
+components.getByName("java") {
+    this as AdhocComponentWithVariants
+    this.withVariantsFromConfiguration(project.configurations["shadowRuntimeElements"]) {
+        skip()
+    }
+}
+
 
