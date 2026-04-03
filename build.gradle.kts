@@ -40,28 +40,74 @@ fun DependencyHandlerScope.applyDependencies() {
     testImplementation(libs.junit.jupiter)
 }
 
-fun RepositoryHandler.applyRepositories() {
-    mavenCentral()
-    maven("https://maven.parchmentmc.org/")
-    maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.raduvoinea.com/repository/maven-releases/")
+fun getProperty(name: String, defaultValue: String = ""): String {
+    if (rootProject.hasProperty(name)) {
+        return rootProject.findProperty(name) as String
+    }
 
-    if (getProperty("gg.mmorealms.proxy.europe") == "true") {
-        maven(url = getProperty("gg.mmorealms.proxy.europe.url")) {
-            name = "Europe-MMORealms-Repository-Proxy"
+    val envName = name.uppercase().replace(".", "_")
+
+    if (System.getenv().containsKey(envName)) {
+        return System.getenv(envName) as String
+    }
+
+    return defaultValue
+}
+
+fun RepositoryHandler.applyRepositories() {
+    mavenLocal()
+
+    val useProxy = getProperty("gg.mmorealms.proxy")
+    println("MMORealms proxy: $useProxy")
+
+    if (useProxy == "true") {
+        val privateProxyUrl = getProperty("gg.mmorealms.proxy.url.private")
+        val publicProxyUrl = getProperty("gg.mmorealms.proxy.url.public")
+        val proxyUsername = getProperty("gg.mmorealms.proxy.username")
+        val proxyPassword = getProperty("gg.mmorealms.proxy.password")
+
+        println("Using MMORealms Proxy Repositories at $privateProxyUrl and $publicProxyUrl with username $proxyUsername")
+
+        maven(url = getProperty("gg.mmorealms.proxy.url.private")) {
+            name = "MMORealms-Repository-Private-Proxy"
             credentials(PasswordCredentials::class) {
-                username = getProperty("gg.mmorealms.proxy.europe.username")
-                password = getProperty("gg.mmorealms.proxy.europe.password")
+                username = proxyUsername
+                password = proxyPassword
             }
         }
-    } else if(getProperty("gg.mmorealms.url")!="") {
+
+        maven(url = getProperty("gg.mmorealms.proxy.url.public")) {
+            name = "MMORealms-Repository-Public-Proxy"
+            credentials(PasswordCredentials::class) {
+                username = proxyUsername
+                password = proxyPassword
+            }
+        }
+    } else {
+        println("Using MMORealms Repositories with username ${getProperty("gg.mmorealms.username")}")
+
         maven(url = getProperty("gg.mmorealms.url")) {
-            name = "MMORealms-Repository"
+            name = "MMORealms-Repository-Private"
             credentials(PasswordCredentials::class) {
                 username = getProperty("gg.mmorealms.username")
                 password = getProperty("gg.mmorealms.password")
             }
         }
+
+        mavenCentral()
+
+        maven("https://repo.raduvoinea.com/repository/maven-releases/")
+        maven("https://repo.papermc.io/repository/maven-public/")
+        maven("https://repo.codemc.io/repository/maven-public/")
+        maven("https://maven.parchmentmc.org/")
+        maven("https://maven.neoforged.net/releases")
+        maven("https://maven.fabricmc.net/")
+        maven("https://jitpack.io/")
+        maven("https://maven.nucleoid.xyz")
+        maven("https://maven.enginehub.org/repo/")
+        maven("https://repo.codemc.io/repository/maven-releases/")
+        maven("https://repo.codemc.io/repository/maven-snapshots/")
+        maven("https://maven.impactdev.net/repository/development/")
     }
 }
 

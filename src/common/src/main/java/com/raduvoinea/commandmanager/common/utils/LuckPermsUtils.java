@@ -131,4 +131,14 @@ public class LuckPermsUtils {
 		return getWeight(group);
 	}
 
+	public static @Nullable String getMetaValue(UUID uuid, String key) {
+		User user = getUser(uuid);
+
+		if (user == null) {
+			return null;
+		}
+
+		return user.getCachedData().getMetaData().getMetaValue(key);
+	}
+
 }
